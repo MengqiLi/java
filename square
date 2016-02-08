@@ -1,0 +1,32 @@
+package project4;
+
+import java.awt.Color;
+
+public class Square extends Shape implements AreaMeasurable {
+	private double size_;
+	
+	public Square(Color c, double originX, double originY, double size) {
+		super(c, originX, originY);
+		this.size_ = size;
+	}
+
+	@Override
+	void draw(PortablePixmap pixmap) {		
+		// TODO Auto-generated method stub
+		int x = (int) (this.originX_ * pixmap.getWidth());
+		int y = (int) (this.originY_ * pixmap.getHeight());
+		int len = (int) (size_ * Math.min(pixmap.getHeight(), pixmap.getWidth()));
+		
+		for(int i = x; i < x + len; ++i) {
+			for(int j = y; j < y + len; ++j) {
+				pixmap.setPixel(i, j, this.color_);
+			}
+		}
+	}
+
+	@Override
+	public double getArea() {
+		// TODO Auto-generated method stub
+		return size_ * size_;
+	}
+}
