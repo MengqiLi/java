@@ -1,0 +1,61 @@
+package project4;
+
+import java.awt.Color;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.List;
+
+public class PortablePixmap {
+	private int width_;
+	private int height_;
+	private List<Color> pixels_;
+	public PortablePixmap(int width, int height) {
+		this.width_ = width;
+		this.height_ = height;
+		pixels_ = new ArrayList<Color>(width * height);
+		for(int i = 0; i < width * height; ++i) {
+			pixels_.add(new Color(0, 0, 0));
+		}
+	}
+	
+	public int getWidth() {
+		return this.width_;
+	}
+	
+	public int getHeight() {
+		return this.height_;
+	}
+	
+	public void setPixel(int row, int column, Color color) {
+		if(row < 0 || row >= width_ || column < 0 || column >= height_)
+			return;
+		pixels_.set(row * height_ + column, color);
+	}
+	
+	public void writeToFile(String fname) {
+	    try {
+	        File file = new File(fname);
+	        if(file.exists() == false) {
+	        	throw new FileNotFoundException();
+	        }
+	        FileWriter fileWriter = new FileWriter(file,true);
+	        BufferedWriter bufferFileWriter  = new BufferedWriter(fileWriter);
+	        bufferFileWriter.write("P3\n");
+	        bufferFileWriter.write(this.width_ + " " + this.height_ + "\n");
+	        bufferFileWriter.write("255\n");
+	        
+	        for(int i = 0; i < pixels_.size(); ++i) {
+	        	Color tmp = pixels_.get(i);
+	        	bufferFileWriter.write(tmp.getRed() + " " + tmp.getGreen() + " " + tmp.getBlue() + "\n");
+	        }
+	        bufferFileWriter.close();
+	        fileWriter.close();
+	    } catch(Exception ex) {
+	        ex.printStackTrace();
+	    }
+	}
+
+}
