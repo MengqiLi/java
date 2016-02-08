@@ -1,0 +1,22 @@
+package project4;
+
+import java.awt.Color;
+
+public abstract class Shape implements AreaMeasurable, Comparable<Shape> {
+	protected Color color_;
+	protected double originX_;
+	protected double originY_;
+	
+
+	public Shape(Color c, double originX, double originY) {
+		originX_ = originX;
+		originY_ = originY;
+		color_ = c;
+	}
+	 
+	 public int compareTo(Shape another) {
+		 return (int) (this.getArea() - another.getArea());
+	 }
+	 
+	 abstract void draw(PortablePixmap pixmap);
+}
