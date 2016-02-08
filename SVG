@@ -1,0 +1,72 @@
+package project4;
+
+import java.awt.Color;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class SVG {
+
+	List<Shape> shapes_;
+	public SVG() {
+		shapes_ = new ArrayList<Shape>();
+	}
+	
+	public SVG(String fname) {
+		shapes_ = new ArrayList<Shape>();		
+		try {
+			File file = new File(fname);
+			if(file.exists()==false)
+				throw new FileNotFoundException();
+			Scanner sc = new Scanner(file);
+
+			while (sc.hasNextLine()) {
+				String line = sc.nextLine();
+				String[] shapes = line.split(" ");
+				if (shapes.length==0) {
+					throw new SVGFormatException();
+				}
+				String sname = shapes[0];
+				double[] inputs = new double[shapes.length - 1];
+				for(int i = 1; i < shapes.length; ++i) {
+					inputs[i - 1] = Double.valueOf(shapes[i]);
+				}
+				Color color = new Color((int)inputs[0], (int)inputs[1], (int)inputs[2]);
+				Shape nshape = null;
+				if (sname.compareTo("square")==0 && shapes.length == 7) {
+					nshape = new Square(color, inputs[3], inputs[4], inputs[5]);
+				} else if (sname.compareTo("rectangle")==0) {
+					
+				} else if (sname.compareTo("ring")==0) {
+					
+				} else if (sname.compareTo("circle")==0) {
+					
+				} else {
+					throw new SVGFormatException();
+				}
+				shapes_.add(nshape);
+				break;
+			} 
+			sc.close();
+		} catch (IOException e) {
+		    e.printStackTrace();   
+		} catch (SVGFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void addShape(Shape shape) {
+		shapes_.add(shape);
+	}
+	
+	public void drawPixmap(PortablePixmap pixmap) {
+		for(int i = 0; i < shapes_.size(); ++i) {
+			Shape tmp = shapes_.get(i);
+			tmp.draw(pixmap);
+		}
+	}
+}
