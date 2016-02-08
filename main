@@ -1,0 +1,18 @@
+package project4;
+
+public class Main {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		PortablePixmap pixmap = new PortablePixmap(10, 10);
+		
+		SVG svg = new SVG("svg_imag");
+		svg.drawPixmap(pixmap);
+		pixmap.writeToFile("MyFile.txt");
+		
+	}
+
+}
