@@ -1,0 +1,7 @@
+package project4;
+
+public class SVGFormatException extends Exception {
+	public SVGFormatException() {
+		super();
+	}
+}
